@@ -79,6 +79,71 @@ public class BST<Key extends Comparable<Key>, Value>
 				return root.value;
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	/*
+	 * Returns the smallest key gretaer than the key or
+	 * NULL if the key does not exist in the tree or
+	 * NULL if there is no greater key
+	 */
+	public Key afterMe(Key key) {
+		Node node = root;
+		Node parent = null;
+
+		while(node != null) { 
+			//loops the code until you reach null leaf
+			//loop should be able to find the key if it exists in the tree
+			int cmp = key.compareTo(node.key);
+
+			if(cmp < 0) { //if key is less than the node.key move left of the tree
+				parent = node;
+				node = node.left;
+			}
+			else if(cmp > 0){ //if key is greater than the node.key move right of the tree
+				parent = node;
+				node = node.right;
+			}
+			else {
+				return parent == null ? null : parent.key; //if the parent is null return null or else returns parent.key
+			}
+		}
+
+		return null; // returns null because the key is not in the tree
+	}
+
+	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: \\
+
+	/*
+	 * returns a STRING of the maximum node just deleted
+	 */
+	public String deleteMaximum() {
+		Node node = root;
+		Node parent = null;
+
+		if(node == null) {
+			return null;
+		}
+
+		while(node.right != null) {
+			parent = node;
+			node = node.right;
+		}
+
+		if(parent != null) {
+			//if parent is not null parent's right child is now the left child of that child
+			parent.right = node.left;
+		}
+		else {
+			root = node.left;
+		}
+
+		return node.toString();
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void main(String[] args)
 	{
 		Scanner in = new Scanner(System.in);
@@ -91,6 +156,8 @@ public class BST<Key extends Comparable<Key>, Value>
 			System.out.println("2. get");
 			System.out.println("3. put multiple");
 			System.out.println("9. toString");
+			System.out.println("10. key after me");
+			System.out.println("11. delete maximum");
 
 			switch (in.nextLine())
 			{
@@ -111,6 +178,13 @@ public class BST<Key extends Comparable<Key>, Value>
 				break;
 			case "9":
 				System.out.println(bst);
+				break;
+			case "10":
+				System.out.println("Please Enter a Key: ");
+				System.out.println(bst.afterMe(in.nextLine().charAt(0)));
+				break;
+			case "11":
+				System.out.println("Maximum Node deleted: " + bst.deleteMaximum());
 				break;
 			case "99":
 				break;
