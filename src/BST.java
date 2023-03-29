@@ -86,8 +86,8 @@ public class BST<Key extends Comparable<Key>, Value>
 	 * Returns the smallest key gretaer than the key or
 	 * NULL if the key does not exist in the tree or
 	 * NULL if there is no greater key
-	 */
-	public Key afterMe(Key key) {
+	 
+	public Key findParent(Key key) {
 		Node node = root;
 		Node parent = null;
 
@@ -111,6 +111,65 @@ public class BST<Key extends Comparable<Key>, Value>
 
 		return null; // returns null because the key is not in the tree
 	}
+	*/
+	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: \\
+
+	/*
+	public Key afterMe(Key key) {
+		Node node = root;
+		Node parent = null;
+		Node rightNode = null;
+		Node rightBeforeNull = null;
+		
+		//checks if the key is in the tree
+		while(node.key != key) {
+			int cmp = key.compareTo(node.key);
+
+			if(cmp < 0) {
+				parent = node;
+				node = node.left;
+			}
+			else if(cmp > 0) {
+				parent = node;
+				node = node.right;
+			}
+
+			if(node == null && cmp != 0) {
+				return null;
+			}
+			
+		}
+
+		rightNode = node.right;
+		while(rightNode != null) {
+			rightBeforeNull = rightNode;
+			rightNode = rightNode.left;
+		}
+
+		return rightBeforeNull.key.compareTo(parent.key) > 0 ? parent.key : rightBeforeNull.key;
+	}
+	*/
+
+	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: \\
+
+	/*
+	 * prints the tree in reverse
+	 */
+	public void printInReverse() {
+        printInReverse(root);
+    }
+    
+    private void printInReverse(Node node) {
+        if (node == null) {
+            return;
+        }
+        // traverse right subtree
+        printInReverse(node.right);
+        // print current node
+        System.out.print(node + " ");
+        // traverse left subtree
+        printInReverse(node.left);
+    }
 
 	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: \\
 
@@ -156,8 +215,10 @@ public class BST<Key extends Comparable<Key>, Value>
 			System.out.println("2. get");
 			System.out.println("3. put multiple");
 			System.out.println("9. toString");
-			System.out.println("10. key after me");
-			System.out.println("11. delete maximum");
+			//System.out.println("10. find parent");
+			//System.out.println("11. After Me");
+			System.out.println("12. print in reverse");
+			System.out.println("13. delete maximum");
 
 			switch (in.nextLine())
 			{
@@ -179,11 +240,20 @@ public class BST<Key extends Comparable<Key>, Value>
 			case "9":
 				System.out.println(bst);
 				break;
+			/*
 			case "10":
 				System.out.println("Please Enter a Key: ");
-				System.out.println(bst.afterMe(in.nextLine().charAt(0)));
-				break;
+				System.out.println(bst.findParent(in.nextLine().charAt(0)));
+				break;	
 			case "11":
+				System.out.println("Node after me: " + bst.afterMe(in.nextLine().charAt(0)));
+				break;
+			*/
+			case "12":
+				bst.printInReverse();
+				System.out.println();
+				break;
+			case "13":
 				System.out.println("Maximum Node deleted: " + bst.deleteMaximum());
 				break;
 			case "99":
